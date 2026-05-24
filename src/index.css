@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+/*
+ * Minimal base only. Brand design tokens (OKLCH palette, type scale, motion)
+ * are defined in Phase B via the `impeccable` skill (/impeccable document →
+ * DESIGN.md). Do not hand-author the full theme here.
+ */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
