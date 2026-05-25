@@ -12,9 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Agent tooling / skills (restore with `npx skills install` from skills-lock.json)
-.agents/
-.claude/skills/
+# Artifiact review comments (local only)
 .crit/
 
 # Editor directories and files

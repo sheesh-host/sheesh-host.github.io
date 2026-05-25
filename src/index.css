@@ -1,11 +1,153 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/martian-mono';
+@import '@fontsource-variable/spline-sans-mono';
 
-/*
- * Minimal base only. Brand design tokens (OKLCH palette, type scale, motion)
- * are defined in Phase B via the `impeccable` skill (/impeccable document →
- * DESIGN.md). Do not hand-author the full theme here.
- */
+/* ── design tokens (see DESIGN.md) ─────────────────────────────────── */
+@theme {
+  --color-desk: #F0E1CF; /* matches hero.png bg (sampled from file, not screen) */
+  --color-paper: oklch(0.968 0.011 86);
+  --color-paper-shade: oklch(0.9 0.023 72);
+  --color-ink: oklch(0.255 0.007 60);
+  --color-ink-soft: oklch(0.404 0.013 65);
+  --color-orange: oklch(0.705 0.196 47);
+  --color-orange-ink: oklch(0.48 0.142 45);
+  --color-lime: oklch(0.86 0.19 128);
+  --color-term: oklch(0.22 0.012 60);
+  --color-term-soft: oklch(0.78 0.01 80);
+
+  --font-display: 'Martian Mono Variable', ui-monospace, monospace;
+  --font-mono: 'Spline Sans Mono Variable', ui-monospace, monospace;
+}
+
+:root {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── base ──────────────────────────────────────────────────────────── */
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  background: var(--color-desk);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  background: var(--color-desk);
+  font-feature-settings: 'ss01';
+}
+
+::selection {
+  background: var(--color-orange);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ── receipt paper texture (very faint warm fibre) ─────────────────── */
+.paper-grain {
+  background-image:
+    repeating-linear-gradient(0deg,
+      oklch(0.255 0.007 60 / 0.012) 0 1px,
+      transparent 1px 3px);
+}
+
+/* ── perforated / torn receipt edges ───────────────────────────────── */
+/* scalloped notches cut from the top and bottom edges via mask union.   */
+/* drop-shadow traces the masked silhouette, so the torn edge reads even */
+/* against the cream desk.                                               */
+.perf {
+  --notch-r: 7px;
+  --notch-gap: 22px;
+  --edge: 11px;
+  -webkit-mask:
+    radial-gradient(var(--notch-r) at 50% 0, #0000 97%, #000) top / var(--notch-gap) var(--edge) repeat-x,
+    radial-gradient(var(--notch-r) at 50% 100%, #0000 97%, #000) bottom / var(--notch-gap) var(--edge) repeat-x,
+    linear-gradient(#000 0 0) center / 100% calc(100% - 2 * var(--edge) + 2px) no-repeat;
+  mask:
+    radial-gradient(var(--notch-r) at 50% 0, #0000 97%, #000) top / var(--notch-gap) var(--edge) repeat-x,
+    radial-gradient(var(--notch-r) at 50% 100%, #0000 97%, #000) bottom / var(--notch-gap) var(--edge) repeat-x,
+    linear-gradient(#000 0 0) center / 100% calc(100% - 2 * var(--edge) + 2px) no-repeat;
+  filter: drop-shadow(0 12px 20px oklch(0.2 0.01 60 / 0.14));
+}
+.perf-bottom {
+  --notch-r: 7px;
+  --notch-gap: 22px;
+  --edge: 11px;
+  -webkit-mask:
+    radial-gradient(var(--notch-r) at 50% 100%, #0000 97%, #000) bottom / var(--notch-gap) var(--edge) repeat-x,
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--edge) + 1px) no-repeat;
+  mask:
+    radial-gradient(var(--notch-r) at 50% 100%, #0000 97%, #000) bottom / var(--notch-gap) var(--edge) repeat-x,
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--edge) + 1px) no-repeat;
+  filter: drop-shadow(0 12px 20px oklch(0.2 0.01 60 / 0.14));
+}
+
+/* ── dotted leader row (receipt line-item grammar) ─────────────────── */
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  width: 100%;
+}
+.leader > .leader-fill {
+  flex: 1 1 auto;
+  border-bottom: 2px dotted var(--color-ink-soft);
+  opacity: 0.55;
+  transform: translateY(-0.32em);
+  min-width: 1.5rem;
+}
+
+/* ── reveal-on-scroll (print-in). gated: only hides when JS+motion ── */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .reveal,
+  .reveal-ready .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── hero feed-in (the receipt prints out of the printer) ──────────── */
+.feed-ready .feed {
+  animation: feed-in 1.05s var(--ease) both;
+}
+@keyframes feed-in {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(-10px); }
+  to   { clip-path: inset(0 0 0 0);    transform: translateY(0); }
+}
+
+/* ── blinking terminal caret ───────────────────────────────────────── */
+.caret {
+  display: inline-block;
+  width: 0.62ch;
+  height: 1.05em;
+  margin-left: 0.1ch;
+  translate: 0 0.16em;
+  background: var(--color-lime);
+  animation: blink 1.06s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .caret { animation: none; }
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
 }

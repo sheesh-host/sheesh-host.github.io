@@ -4,19 +4,30 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/mark.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sheesh.host — git push. instant https.</title>
+    <title>sheesh.host — git push. quick share.</title>
     <meta
       name="description"
       content="Self-hostable, CLI-first, git-backed gated publishing for static artifacts. Your artifacts, your history, your AWS, your auth, your fork."
     />
-    <meta property="og:title" content="sheesh.host" />
+    <meta property="og:title" content="sheesh.host — git push. quick share." />
     <meta
       property="og:description"
-      content="git-native gated static publishing — your AWS, with git as the audit log."
+      content="Self-hostable, git-native gated static publishing. Your AWS, your auth, your fork — with git as the audit log."
     />
-    <meta property="og:image" content="/printer.webp" />
+    <meta property="og:image" content="/hero.png" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sheesh.host/" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#F6F1E7" />
+    <script>
+      // Gate entrance motion at the document level, pre-paint, so reduced-motion
+      // users never see a flash and the hero/sections don't pop before animating.
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('feed-ready', 'reveal-ready');
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
