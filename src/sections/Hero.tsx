@@ -21,7 +21,7 @@ export function Hero() {
         </Reveal>
 
         <Reveal as="h1" delay={80} className="mt-5">
-          <span className="block font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          <span className="block font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-ink-soft line-through decoration-orange decoration-[0.08em] sm:text-6xl lg:text-7xl">
             Share it.
           </span>
           <span className="mt-1 block font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
