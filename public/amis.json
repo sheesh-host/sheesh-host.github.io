@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "amis": [
+    {
+      "version": "snapshot",
+      "region": "ap-southeast-1",
+      "ami_id": "ami-0bf34de1b2f5e4569",
+      "arch": "arm64",
+      "created": "2026-05-26T07:32:38Z"
+    },
+    {
+      "version": "snapshot",
+      "region": "us-east-1",
+      "ami_id": "ami-0d095441390bf1fb2",
+      "arch": "arm64",
+      "created": "2026-05-26T07:32:38Z"
+    }
+  ]
+}
